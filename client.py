@@ -6,8 +6,11 @@ from aiogram.dispatcher.filters import Text
 from data_base import sql_db
 import keyboard_main
 
+
+
 class Bron(StatesGroup):
     sost1 = State()
+
 
 async def bron1(message: types.Message):
     await message.reply("Введите желаемое день и время посещения нашего заведения, зал, в которомы вы"
@@ -37,7 +40,7 @@ async def cancel(message : types.Message, state = FSMContext):
 async def masters(message: types.Message):
     master = await sql_db.master()
     await bot.send_photo(message.from_user.id, f"{master[1]}")
-    await bot.send_message(message.from_user.id, f"На смене {master[2]}", reply_markup=keyboard_main.ikb_main)
+    await bot.send_message(message.from_user.id, f"На смене рулит всем {master[2]}", reply_markup=keyboard_main.ikb_main)
 
 def registr_client(dp: Dispatcher):
     dp.register_message_handler(bron1, lambda message: message.text in ["Забронировать стол", "/reservation"], state=None)

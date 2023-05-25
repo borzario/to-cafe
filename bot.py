@@ -1,6 +1,7 @@
 from aiogram.utils import executor
 
 import admins
+import photos
 from create_bot import dp, bot
 from aiogram import types
 import keyboard_main
@@ -11,6 +12,10 @@ from admins import *
 async def on_startup(_):
     print("Папа в здании")
     sql_db.db_start()
+
+
+temp_user = {}
+
 
 @dp.callback_query_handler(text="в начало")
 @dp.message_handler(lambda message: message.text.lower() in ["в начало", '/main'])
@@ -61,9 +66,17 @@ async def about(message: types.Message):
                            text="Выберите категорию", reply_markup=keyboard_main.ikb_main)
 
 
+@dp.callback_query_handler(text="next_photo")
 @dp.message_handler(lambda message: "интерьер" in message.text.lower())
 async def interier(message: types.Message):
-    await bot.send_message(message.from_user.id, "Фото залаов нашего уютного заведения")
+    #await bot.send_message(message.from_user.id, "Фото залов нашего уютного заведения")
+    global temp_user
+    temp_user[message.from_user.id] = temp_user.get(message.from_user.id, 0)
+    photo_number: int = temp_user[message.from_user.id]
+    print(photo_number, temp_user)
+    await bot.send_photo(message.from_user.id, photos.rooms[photo_number], reply_markup=keyboard_main.ikb_about)
+    temp_user[message.from_user.id] = (temp_user.get(message.from_user.id, 0) + 1) % 6
+
     """await bot.send_photo(message.from_user.id,
                          "AgACAgEAAxkBAAIHSmMLJxX4K5pgk7TJLpZAK5Yetm-7AAKQqjEbh4xZRFMcFaT8BeoxAQADAgADcwADKQQ")
     await bot.send_photo(message.from_user.id,
@@ -160,8 +173,8 @@ async def colla(message: types.Message):
 @dp.message_handler(content_types = ['photo'])
 async def any_shit(message : types.Message, a="nnn"):
     await bot.send_message(5097527515, f"{message.photo[0].file_id} от {message.from_user.id}")
-    await sql_db.add_photo(message)
-    await bot.send_message(message.from_user.id, "Your photo was added to base")
+    #await sql_db.add_photo(message)
+    #await bot.send_message(message.from_user.id, "Your photo was added to base")
     """await bot.send_message(message.from_user.id, message.from_user.id)"""
 
 
@@ -173,7 +186,7 @@ async def any_shit2(message : types.Message, a="nnn"):
 registr_admin(dp)
 registr_client(dp)
 
-@dp.message_handler()
+#@dp.message_handler()
 async def name(message: types.Message):
     await bot.send_message(5097527515, message.text)
     await sql_db.add_name(message)
