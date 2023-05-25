@@ -21,30 +21,26 @@ ikb_about = InlineKeyboardMarkup(row_width=1).row(ib_about)
 
 b_hooka = KeyboardButton("Кальянные радости")
 b_bar = KeyboardButton("Напитки и чаи")
-b_razvlekuha = KeyboardButton("Развлечения в нашем баре")
 b_stol = KeyboardButton("Забронировать стол")
 kb_uslugi = ReplyKeyboardMarkup(resize_keyboard=True)
-kb_uslugi.row(b_hooka, b_bar).row(b_razvlekuha).row(b_stol)
+kb_uslugi.row(b_hooka, b_bar).row(b_stol)
 
 ib_uslugi = InlineKeyboardButton(text="Назад", callback_data="Услуги нашего заведения")
 b_tea = KeyboardButton("Чаи")
 b_cold = KeyboardButton("Прохладительные напитки")
-b_alkfood = KeyboardButton("Алкоголь и еда")
+b_menu = KeyboardButton("Меню")
 kb_bar = ReplyKeyboardMarkup(resize_keyboard=True)
-kb_bar.row(b_tea, b_alkfood).row(b_cold).row(b_stol)
+kb_bar.row(b_menu).row(b_tea).row(b_cold).row(b_stol)
 ikb_uslugi = InlineKeyboardMarkup(row_width=1).row(ib_uslugi, ib_main)
 
-b_pl = KeyboardButton("Play Station")
-b_trans = KeyboardButton("Спортивные трансляции и фильмы")
-b_games = KeyboardButton("Настольные игры")
-kb_razv = ReplyKeyboardMarkup(resize_keyboard=True)
-kb_razv.row(b_pl, b_games).row(b_trans).row(b_stol)
+
 
 b_nasmene = KeyboardButton("Я на смене")
 b_bron_accapt = KeyboardButton("Подтвердить бронь")
+b_bron_no = KeyboardButton("Послать нахуй")
 b_spam = KeyboardButton("Запилить рассылку")
 kb_mainwindow_admin = ReplyKeyboardMarkup(resize_keyboard=True)
-kb_mainwindow_admin.row(b_nasmene).row(b_bron_accapt).row(b_spam)
+kb_mainwindow_admin.row(b_nasmene).row(b_bron_accapt, b_bron_no).row(b_spam)
 
 b_cancel = KeyboardButton("Отмена")
 

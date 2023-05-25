@@ -18,7 +18,7 @@ async def salam(message: types.Message):
     """await bot.send_photo(message.from_user.id,
                          "AgACAgEAAxkBAAIHRGMLJhCchUeJOxUi85ASQ0wy1pXOAAKNqjEbh4xZRN1YiXXKQzlcAQADAgADcwADKQQ")"""
     if message.from_user.id in admins.amdins:
-        await bot.send_message(message.from_user.id, "Салам, родной",
+        await bot.send_message(message.from_user.id, "Салам, родная",
                                reply_markup=keyboard_main.kb_mainwindow_admin)
     else:
         await bot.send_message(message.from_user.id, "Выберите категорию",
@@ -28,7 +28,7 @@ async def salam(message: types.Message):
 async def start(message: types.Message):
     #await bot.send_video(message.from_user.id, "BAACAgIAAxkBAAIKJmMLfIUGuimxS-DTlsb5cqSr1WsdAAL0IwAC5RZQSC7-V5eS635sKQQ")
     if message.from_user.id in admins.amdins:
-        await bot.send_message(message.from_user.id, "Салам, родной",
+        await bot.send_message(message.from_user.id, "Салам, родная",
                                reply_markup=keyboard_main.kb_mainwindow_admin)
     else:
         await bot.send_message(message.from_user.id, "Здравствуйе, дорогой друг!\nВыберитe категорию, нажав на соответствующую кнопку",
@@ -154,36 +154,6 @@ async def colla(message: types.Message):
                          "Напитки в стеклянных бутылках - 150 рублей\n"
                          "Энергетики - 200 рублей",
                          reply_markup=keyboard_main.ikb_main)"""
-
-@dp.message_handler(lambda message: "развлечения в нашем баре" in message.text.lower())
-async def enterteiment(message: types.Message):
-    await bot.send_message(message.from_user.id, "В нашем баре вы можете провести свое свободное время,"
-                                                 " совмещая порцию дымной радости с увлекательными играми "
-                                                 "или с просмотром фильма/спортивной трансляции", reply_markup=keyboard_main.kb_razv)
-    await bot.send_message(message.from_user.id, "Выберите категорию", reply_markup=keyboard_main.ikb_uslugi)
-
-@dp.message_handler(lambda message: "Play Station" in message.text)
-async def sp5(message: types.Message):
-    """await bot.send_photo(message.from_user.id,
-                         "AgACAgEAAxkBAAIH62MLMbSKR4feiA8Tn29DzljOxULXAAKcqjEbh4xZRGuyfschXGcLAQADAgADcwADKQQ",
-                         "В нашем баре ты можешь поиграть в UFC3, Mortal Kombat XI, FIFA 2019, FIFA 2020, GTA 5, God Of War",
-                         reply_markup=keyboard_main.ikb_uslugi)"""
-
-@dp.message_handler(lambda message: "спортивные трансляции и фильмы" in message.text.lower())
-async def tranlations(message: types.Message):
-    """await bot.send_photo(message.from_user.id,
-                         "AgACAgEAAxkBAAIH72MLMnJv3wbnhCUx7cv2j-lqnyk2AAKdqjEbh4xZRIrGYgABjCjmgQEAAwIAA3MAAykE")
-    await bot.send_photo(message.from_user.id,
-                         "AgACAgEAAxkBAAIH7WMLMm72NII0SqEhckhwATsGlIR0AAKOqjEbh4xZRCKUQdbniC-6AQADAgADcwADKQQ",
-                         "Просмотр фильмов и спортивных трансляций на большом экране 75 дюймов",
-                         reply_markup=keyboard_main.ikb_uslugi)"""
-
-@dp.message_handler(lambda message: "настольные игры" in message.text.lower())
-async def games(message: types.Message):
-    """await bot.send_photo(message.from_user.id,
-                         "AgACAgEAAxkBAAIH8WMLMyu-cq0f2Hn0f-yhqqlJYiVNAAKeqjEbh4xZRBh1rUCCZMHxAQADAgADcwADKQQ",
-                         "Карты, нарды, домино",
-                         reply_markup=keyboard_main.ikb_uslugi)"""
 
 
 

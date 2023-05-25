@@ -3,7 +3,7 @@ from create_bot import dp, bot
 
 def db_start():
     global base, cur
-    base = sq.connect("boss.db")
+    base = sq.connect("cafe.db")
     cur = base.cursor()
     if base:
         print("Connected to bd is OK!")
