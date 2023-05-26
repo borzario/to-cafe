@@ -13,7 +13,7 @@ class Bron(StatesGroup):
 
 
 async def bron1(message: types.Message):
-    await message.reply("Введите желаемое день и время посещения нашего заведения, зал, в которомы вы"
+    await message.reply("Введите желаемые день и время посещения нашего заведения, зал, в которомы вы "
                         "желаете расположиться (в одном сообщении). "
                         "Для отмены бронирования нажмите кнопку 'Отмена'",
                         reply_markup=keyboard_main.kb_zakaz)
