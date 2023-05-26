@@ -56,8 +56,11 @@ async def spam(data):
     sp_ph = cur.execute(f"SELECT photo FROM spam WHERE ROWID == {last_spam_num} ").fetchall()[0][0]
     users = cur.execute("SELECT * FROM users").fetchall()
     for i in users:
-        await bot.send_message(int(i[0]), sp_t)
-        await bot.send_photo(int(i[0]), sp_ph)
+        try:
+            await bot.send_message(int(i[0]), sp_t)
+            await bot.send_photo(int(i[0]), sp_ph)
+        except:
+            pass
 
 
 async def add_photo(message):
