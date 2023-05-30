@@ -1,4 +1,8 @@
 import sqlite3 as sq
+
+from aiogram import types
+
+import admins
 from create_bot import dp, bot
 
 def db_start():
@@ -12,6 +16,7 @@ def db_start():
     base.execute('CREATE TABLE IF NOT EXISTS bron(user TEXT, time TEXT, user_name TEXT)')
     base.execute('CREATE TABLE IF NOT EXISTS all_masters(id TEXT, photo TEXT, about TEXT)')
     base.execute('CREATE TABLE IF NOT EXISTS spam(text TEXT, photo TEXT)')
+    base.execute("CREATE TABLE IF NOT EXISTS tells(id INTEGER, words TEXT, code TEXT, oke TEXT)")
     base.commit()
 
 async def user_add(message):
@@ -73,5 +78,28 @@ async def add_name(message):
     last_master_num = int(cur.execute("SELECT MAX(ROWID) FROM all_masters").fetchall()[0][0])
     cur.execute(f"UPDATE all_masters SET about == ? WHERE ROWID == {last_master_num}", (f"{message.text}",))
     base.commit()
+
+
+async def tells_to_base(message: types.Message):
+    cur.execute("INSERT INTO tells VALUES (?, ?, ?, ?)",
+                (message.from_user.id, message.text, None, None))
+    base.commit()
+    last_spam_num = int(cur.execute("SELECT MAX(ROWID) FROM tells").fetchall()[0][0])
+    for i in admins.amdins:
+        try:
+            await bot.send_message(i, f"Поступил отзыв № {last_spam_num}\n{message.text}")
+        except:
+            pass
+
+
+    promo_dict = "123456789ABCDFG*-_!&"
+    promo = "".join(random.choices(promo_dict, k=7))
+    await message.reply(f"Ваш отзыв принят, спасибо!\nПромокод на бесплатный кофе - {promo}",
+                        reply_markup=keyboard_main.ikb_main)"
+
+async def tells_of_another():
+    words: list = [i[0] for i in cur.execute("SELECT words FROM tells WHERE oke == 'good'").fetchall()]
+    return words
+
 
 

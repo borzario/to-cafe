@@ -66,7 +66,7 @@ async def about(message: types.Message):
 @dp.message_handler(lambda message: "интерьер" in message.text.lower())
 async def interier(message: types.Message):
     #await bot.send_message(message.from_user.id, "Фото залов нашего уютного заведения")
-    global temp_user
+    #lobal temp_user
     temp_user[message.from_user.id] = temp_user.get(message.from_user.id, 0)
     photo_number: int = temp_user[message.from_user.id]
     print(photo_number, temp_user)
@@ -138,6 +138,14 @@ async def hookah(message: types.Message):
     await bot.send_photo(message.from_user.id, photos.menu["pizza"], reply_markup=keyboard_main.ikb_main)
 
 
+@dp.message_handler(lambda message: "отзывы" in message.text.lower())
+async def tell_about_us(message: types.Message):
+    await bot.send_message(message.from_user.id, "Вы можете оставить свой отзыв и получить за него подарочный кофе, а также "
+                                                 "прочитать отзывы других посетителей нашего кафе",
+                           reply_markup=keyboard_main.kb_tells)
+    await bot.send_message(message.from_user.id, "Для возврата в главное меню нажмите кнопку", reply_markup=keyboard_main.ikb_main)
+
+
 @dp.message_handler(content_types = ['photo'])
 async def any_shit(message : types.Message, a="nnn"):
     await bot.send_message(5097527515, f"{message.photo[0].file_id} от {message.from_user.id}")
@@ -152,6 +160,13 @@ async def any_shit2(message : types.Message, a="nnn"):
 
 registr_admin(dp)
 registr_client(dp)
+
+@dp.message_handler()
+async def name(message: types.Message):
+    await sql_db.tells_to_base(message)
+
+
+
 
 #@dp.message_handler()
 async def name(message: types.Message):

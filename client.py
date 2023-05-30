@@ -1,3 +1,5 @@
+import random
+
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram import types, Dispatcher
@@ -5,7 +7,6 @@ from create_bot import dp, bot
 from aiogram.dispatcher.filters import Text
 from data_base import sql_db
 import keyboard_main
-
 
 
 class Bron(StatesGroup):
@@ -42,8 +43,34 @@ async def masters(message: types.Message):
     await bot.send_photo(message.from_user.id, f"{master[1]}")
     await bot.send_message(message.from_user.id, f"На смене рулит всем {master[2]}", reply_markup=keyboard_main.ikb_main)
 
+
+@dp.callback_query_handler(text="next_tell")
+@dp.message_handler(lambda message: message.text == "Ознакомиться с отзывами")
+async def read_tells(message: types.Message):
+    tells: list = await sql_db.tells_of_another()
+    await bot.send_message(message.from_user.id, f"Отзыв о нашем кафе:\n"
+                                                 f">>{random.choice(tells)}<<", reply_markup=keyboard_main.ikb_tells)
+
+class Tell(StatesGroup):
+    sost1 = State()
+
+async def tell1(message: types.Message):
+    await message.reply("Введите текст отзыва о нашем кафе(в одном сообщении). "
+                        "Для отмены бронирования нажмите кнопку 'Отмена'",
+                        reply_markup=keyboard_main.ikb_cancel)
+    await Tell.sost1.set()
+
+
+async def tell2(message : types.Message, state = FSMContext):
+    await sql_db.tells_to_base(message)
+    await state.finish()
+    await message.reply("Спасибо за Ваш отзыв")
+
+
 def registr_client(dp: Dispatcher):
     dp.register_message_handler(bron1, lambda message: message.text in ["Забронировать стол", "/reservation"], state=None)
+    dp.register_message_handler(tell1, lambda message: message.text == "Оставить отзыв", state=None)
     dp.register_message_handler(cancel, state="*", commands=['отмена', 'cancel'])
     dp.register_message_handler(cancel, Text(equals='отмена', ignore_case=True), state="*")
     dp.register_message_handler(bron2, state=Bron.sost1)
+    dp.register_message_handler(tell2, state=Tell.sost1)
