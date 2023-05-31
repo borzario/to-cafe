@@ -84,12 +84,7 @@ async def tells_to_base(message: types.Message):
     cur.execute("INSERT INTO tells VALUES (?, ?, ?, ?)",
                 (message.from_user.id, message.text, None, None))
     base.commit()
-    last_spam_num = int(cur.execute("SELECT MAX(ROWID) FROM tells").fetchall()[0][0])
-    for i in admins.amdins:
-        try:
-            await bot.send_message(i, f"Поступил отзыв № {last_spam_num}\n{message.text}")
-        except:
-            pass
+
 
 
 async def get_max_tell() -> int:
