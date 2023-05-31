@@ -3,10 +3,16 @@ import random
 from aiogram.dispatcher import FSMContext
 from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram import types, Dispatcher
+
+import admins
 from create_bot import dp, bot
 from aiogram.dispatcher.filters import Text
 from data_base import sql_db
 import keyboard_main
+from aiogram.types import KeyboardButton, ReplyKeyboardMarkup, InlineKeyboardButton, InlineKeyboardMarkup
+
+
+temp_code = {}
 
 
 class Bron(StatesGroup):
@@ -64,8 +70,26 @@ async def tell1(message: types.Message):
 async def tell2(message : types.Message, state = FSMContext):
     await sql_db.tells_to_base(message)
     await state.finish()
+    max = await sql_db.get_max_tell()
+    ib_code = InlineKeyboardButton(text="Дать код", callback_data=f"code = {max}")
+    ikb_code = InlineKeyboardMarkup(row_width=1).row(ib_code)
+    for i in admins.amdins:
+        try:
+            await bot.send_message(i, f"Поступил отзыв\n{message.text}", reply_markup=ikb_code)
+        except:
+            pass
     await message.reply("Спасибо за Ваш отзыв")
 
+
+@dp.callback_query_handler(lambda i: i.from_user.id in admins.amdins and i.data.startswith("code"))
+async def unz(cb: types.CallbackQuery):
+    code = int(cb.data[7:])
+    user = await sql_db.get_user_tell(code)
+    promo_dict = "123456789ABCDFG"
+    promo = "".join(random.choices(promo_dict, k=4))
+    await bot.send_message(user, f"Ваш отзыв принят, спасибо!\nПромокод на бесплатный кофе - {promo}",
+                        reply_markup=keyboard_main.ikb_main)
+    await bot.send_message(cb.from_user.id, "Code was sended to client")
 
 def registr_client(dp: Dispatcher):
     dp.register_message_handler(bron1, lambda message: message.text in ["Забронировать стол", "/reservation"], state=None)

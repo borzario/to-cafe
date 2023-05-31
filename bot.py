@@ -161,12 +161,6 @@ async def any_shit2(message : types.Message, a="nnn"):
 registr_admin(dp)
 registr_client(dp)
 
-@dp.message_handler()
-async def name(message: types.Message):
-    await sql_db.tells_to_base(message)
-
-
-
 
 #@dp.message_handler()
 async def name(message: types.Message):

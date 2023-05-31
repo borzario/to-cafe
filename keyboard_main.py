@@ -60,7 +60,7 @@ b_tell_accapt = KeyboardButton("Разрешить отзыв")
 b_bron_no = KeyboardButton("Послать нахуй")
 b_spam = KeyboardButton("Запилить рассылку")
 kb_mainwindow_admin = ReplyKeyboardMarkup(resize_keyboard=True)
-kb_mainwindow_admin.row(b_nasmene).row(b_bron_accapt, b_bron_no).row(b_tell_accapt).row(b_spam)
+kb_mainwindow_admin.row(b_nasmene).row(b_bron_accapt, b_bron_no).row(b_spam)
 
 b_cancel = KeyboardButton("Отмена")
 ib_cancel = InlineKeyboardButton(text="Отмена", callback_data="cancel")

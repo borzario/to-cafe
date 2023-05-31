@@ -92,13 +92,16 @@ async def tells_to_base(message: types.Message):
             pass
 
 
-    promo_dict = "123456789ABCDFG*-_!&"
-    promo = "".join(random.choices(promo_dict, k=7))
-    await message.reply(f"Ваш отзыв принят, спасибо!\nПромокод на бесплатный кофе - {promo}",
-                        reply_markup=keyboard_main.ikb_main)"
+async def get_max_tell() -> int:
+    return int(cur.execute("SELECT MAX(ROWID) FROM tells").fetchall()[0][0])
+
+
+async def get_user_tell(code: int):
+    return cur.execute(f"SELECT id FROM tells WHERE ROWID == {code}").fetchall()[0][0]
+
 
 async def tells_of_another():
-    words: list = [i[0] for i in cur.execute("SELECT words FROM tells WHERE oke == 'good'").fetchall()]
+    words: list = [i[0] for i in cur.execute("SELECT words FROM tells").fetchall()]
     return words
 
 
