@@ -96,8 +96,13 @@ async def get_user_tell(code: int):
 
 
 async def tells_of_another():
-    words: list = [i[0] for i in cur.execute("SELECT words FROM tells").fetchall()]
+    bad = "bad"
+    words: list = [i[1] for i in cur.execute(f"SELECT * FROM tells").fetchall() if i[3] != "bad"]
+    print (words)
     return words
 
 
-
+async def change_to_bad(number, user):
+    cur.execute(f"UPDATE tells SET oke == ? WHERE ROWID == {number}", ("bad",))
+    base.commit()
+    await bot.send_message(user, "Added to trash")

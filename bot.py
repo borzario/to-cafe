@@ -1,5 +1,5 @@
 from aiogram.utils import executor
-
+import pers
 import admins
 import photos
 from create_bot import dp, bot
@@ -22,7 +22,7 @@ temp_user = {}
 async def salam(message: types.Message):
     """await bot.send_photo(message.from_user.id,
                          "AgACAgEAAxkBAAIHRGMLJhCchUeJOxUi85ASQ0wy1pXOAAKNqjEbh4xZRN1YiXXKQzlcAQADAgADcwADKQQ")"""
-    if message.from_user.id in admins.amdins:
+    if message.from_user.id in pers.amdins:
         await bot.send_message(message.from_user.id, "Салам, родная",
                                reply_markup=keyboard_main.kb_mainwindow_admin)
     else:
@@ -32,7 +32,7 @@ async def salam(message: types.Message):
 @dp.message_handler(lambda message: "start" in message.text.lower())
 async def start(message: types.Message):
     #await bot.send_video(message.from_user.id, "BAACAgIAAxkBAAIKJmMLfIUGuimxS-DTlsb5cqSr1WsdAAL0IwAC5RZQSC7-V5eS635sKQQ")
-    if message.from_user.id in admins.amdins:
+    if message.from_user.id in pers.amdins:
         await bot.send_message(message.from_user.id, "Салам, родная",
                                reply_markup=keyboard_main.kb_mainwindow_admin)
     else:
