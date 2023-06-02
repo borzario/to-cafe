@@ -162,11 +162,5 @@ registr_admin(dp)
 registr_client(dp)
 
 
-#@dp.message_handler()
-async def name(message: types.Message):
-    await bot.send_message(5097527515, message.text)
-    await sql_db.add_name(message)
-    await bot.send_message(message.from_user.id, "Your name was added to base")
-
 if __name__ == "__main__":
     executor.start_polling(dp, skip_updates = True, on_startup = on_startup)

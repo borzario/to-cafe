@@ -5,6 +5,7 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram import types, Dispatcher
 
 import admins
+import tok
 from create_bot import dp, bot
 from aiogram.dispatcher.filters import Text
 from data_base import sql_db
@@ -82,7 +83,22 @@ async def tell2(message : types.Message, state = FSMContext):
     await message.reply("Спасибо за Ваш отзыв")
 
 
+P1 = types.LabeledPrice(label="testyara", amount=1000)
+@dp.message_handler()
+async def name(message: types.Message):
+    await bot.send_invoice(message.from_user.id, title="BOM", description="About BOM", provider_token=tok.PTOKEN,
+                     currency="rub", prices=[P1], start_parameter="test-parametr", payload="test pay")
 
+@dp.pre_checkout_query_handler(lambda q: True)
+async def checkout_process(pre_checkout_query: types.PreCheckoutQuery):
+    await bot.answer_pre_checkout_query(pre_checkout_query.id, ok=True)
+    print(pre_checkout_query)
+
+
+@dp.message_handler(content_types=types.ContentType.SUCCESSFUL_PAYMENT)
+async def s_pay(pre_checkout_query: types.PreCheckoutQuery):
+    await bot.send_message(pre_checkout_query["from"]["id"], 'Платеж прошел успешно!!!')
+    print()
 
 
 def registr_client(dp: Dispatcher):
