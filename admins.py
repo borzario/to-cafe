@@ -78,12 +78,12 @@ async def spam3(message: types.Message, state = FSMContext):
 async def unz(cb: types.CallbackQuery):
     code = int(cb.data[7:])
     user = await sql_db.get_user_tell(code)
-    promo_dict = "123456789ABCDFG"
+    promo_dict: str = "123456789ABCDFG"
     promo = "".join(random.choices(promo_dict, k=4))
     if user not in await sql_db.get_all_users_with_code_tell():
         await bot.send_message(user, f"Ваш отзыв принят, спасибо!\nПромокод на бесплатный кофе - {promo}",
                                reply_markup=keyboard_main.ikb_main)
-        await sql_db.give_code(user, code)
+        await sql_db.give_code(user, promo)
         await bot.send_message(cb.from_user.id, "Code was sended to client")
     else:
         await bot.send_message(cb.from_user.id, "this user had get code early")

@@ -113,7 +113,7 @@ async def get_all_users_with_code_tell() -> list:
     return users
 
 
-async def give_code(user: int, code: str):
-    cur.execute(f"UPDATE tells SET code == ? WHERE id == {user}", (f"{code}",))
+async def give_code(user: int, promo: str):
+    cur.execute(f"UPDATE tells SET code == ? WHERE id == {user}", (f"{promo}",))
     base.commit()
 
