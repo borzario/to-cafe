@@ -106,3 +106,14 @@ async def change_to_bad(number, user):
     cur.execute(f"UPDATE tells SET oke == ? WHERE ROWID == {number}", ("bad",))
     base.commit()
     await bot.send_message(user, "Added to trash")
+
+
+async def get_all_users_with_code_tell() -> list:
+    users: list = [i[0] for i in cur.execute("SELECT * FROM tells").fetchall() if i[2]]
+    return users
+
+
+async def give_code(user: int, code: str):
+    cur.execute(f"UPDATE tells SET code == ? WHERE id == {user}", (f"{code}",))
+    base.commit()
+
