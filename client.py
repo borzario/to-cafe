@@ -50,12 +50,20 @@ async def masters(message: types.Message):
     await bot.send_message(message.from_user.id, f"На смене рулит всем {master[2]}", reply_markup=keyboard_main.ikb_main)
 
 
-@dp.callback_query_handler(text="next_tell")
+
 @dp.message_handler(lambda message: message.text == "Ознакомиться с отзывами")
 async def read_tells(message: types.Message):
     tells: list = await sql_db.tells_of_another()
     await bot.send_message(message.from_user.id, f"Отзыв о нашем кафе:\n"
                                                  f">>{random.choice(tells)}<<", reply_markup=keyboard_main.ikb_tells)
+
+
+@dp.callback_query_handler(text="next_tell")
+async def read_tells(cb: types.CallbackQuery):
+    tells: list = await sql_db.tells_of_another()
+    await bot.edit_message_text(message_id=cb.message.message_id, chat_id=cb.message.chat.id, text=f"Отзыв о нашем кафе:\n"
+                                f">>{random.choice(tells)}<<", reply_markup=keyboard_main.ikb_tells)
+
 
 class Tell(StatesGroup):
     sost1 = State()
