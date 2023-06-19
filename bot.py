@@ -97,7 +97,7 @@ async def hookah(message: types.Message):
     await bot.send_photo(message.from_user.id, photos.hookah, reply_markup=keyboard_main.ikb_main)
 
 
-@dp.message_handler(lambda message: "menu" in message.text.lower())
+@dp.callback_query_handler(lambda c: "menu" in c.data)
 @dp.message_handler(lambda message: "меню" in message.text.lower())
 async def hookah(message: types.Message):
     await bot.send_photo(message.from_user.id, photos.menu["menu"])

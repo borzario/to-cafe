@@ -17,7 +17,18 @@ def db_start():
     base.execute('CREATE TABLE IF NOT EXISTS all_masters(id TEXT, photo TEXT, about TEXT)')
     base.execute('CREATE TABLE IF NOT EXISTS spam(text TEXT, photo TEXT)')
     base.execute("CREATE TABLE IF NOT EXISTS tells(id INTEGER, words TEXT, code TEXT, oke TEXT)")
+    base.execute("CREATE TABLE IF NOT EXISTS korzina(id INTEGER, tov TEXT, price INTEGER)")
     base.commit()
+
+
+gods: dict = {"мяс45": ("Мясная пицца, 45 сантиметров", 860), "мяс25": ("Мясная пицца, 25 сантиметров", 360),
+              "мяс35": ("Мясная пицца, 35 сантиметров", 560), "мор35": ("Морская пицца, 35 сантиметров", 570),
+              "мор25": ("Морская пицца, 25 сантиметров", 370), "мор45": ("Морская пицца, 45 сантиметров", 870),
+              "пеп35": ("Пепперони, 35 сантиметров", 540), "пеп25": ("Пепперони, 25 сантиметров", 340),
+              "пеп45": ("Пепперони, 45 сантиметров", 840), "клоун35": ("Сырная с пряной грушей, 35 сантиметров", 540),
+              "клоун25": ("Сырная с пряной грушей, 25 сантиметров", 340),
+              "клоун45": ("Сырная с пряной грушей, 45 сантиметров", 840)}
+
 
 async def user_add(message):
     try:
@@ -98,7 +109,6 @@ async def get_user_tell(code: int):
 async def tells_of_another():
     bad = "bad"
     words: list = [i[1] for i in cur.execute(f"SELECT * FROM tells").fetchall() if i[3] != "bad"]
-    print (words)
     return words
 
 
@@ -117,3 +127,12 @@ async def give_code(user: int, promo: str):
     cur.execute(f"UPDATE tells SET code == ? WHERE id == {user}", (f"{promo}",))
     base.commit()
 
+async def add_zak(user: int, tov: str):
+    real_tov = gods[tov]
+    cur.execute("INSERT INTO korzina VALUES (?, ?, ?)",
+                (user, real_tov[0], real_tov[1]))
+    base.commit()
+
+
+async def get_tov_from_korzina(user: int):
+    return cur.execute(f"SELECT ROWID, * FROM korzina WHERE id== {user}").fetchall()
