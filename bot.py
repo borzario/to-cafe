@@ -8,6 +8,7 @@ import keyboard_main
 from data_base import sql_db
 from client import *
 from admins import *
+import zakazaka
 
 async def on_startup(_):
     print("Папа в здании")
@@ -135,7 +136,8 @@ async def hookah(message: types.Message):
 
 @dp.message_handler(lambda message: "пицца" in message.text.lower())
 async def hookah(message: types.Message):
-    await bot.send_photo(message.from_user.id, photos.menu["pizza"], reply_markup=keyboard_main.ikb_main)
+    await bot.send_message(message.from_user.id, "viberi pizzu", reply_markup=keyboard_main.ikb_z_pizza)
+    #await bot.send_photo(message.from_user.id, photos.menu["pizza"], reply_markup=keyboard_main.ikb_z_pizza)
 
 
 @dp.message_handler(lambda message: "отзывы" in message.text.lower())
@@ -157,6 +159,14 @@ async def any_shit(message : types.Message, a="nnn"):
 @dp.message_handler(content_types = ['video'])
 async def any_shit2(message : types.Message, a="nnn"):
     await bot.send_message(message.from_user.id, message.video.file_id)
+
+
+@dp.message_handler(text="корзина")
+async def goto_korz(message: types.Message):
+    await bot.send_message(message.from_user.id, "В данном разделе располагаются ваши заказы")
+
+
+
 
 registr_admin(dp)
 registr_client(dp)

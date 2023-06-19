@@ -84,7 +84,7 @@ async def tell2(message : types.Message, state = FSMContext):
 
 
 P1 = types.LabeledPrice(label="testyara", amount=1000)
-@dp.message_handler()
+#@dp.message_handler()
 async def name(message: types.Message):
     await bot.send_invoice(message.from_user.id, title="BOM", description="About BOM", provider_token=tok.PTOKEN,
                      currency="rub", prices=[P1], start_parameter="test-parametr", payload="test pay")

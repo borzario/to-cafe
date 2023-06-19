@@ -8,8 +8,9 @@ b_contacts = KeyboardButton("Контакты")
 b_first = KeyboardButton("В начало")
 b_usligi = KeyboardButton("Услуги нашего заведения")
 b_about = KeyboardButton("О нашем кафе")
+b_korzina = KeyboardButton("Корзина")
 kb_mainwindow = ReplyKeyboardMarkup(resize_keyboard=True)
-kb_mainwindow.row(b_usligi).row(b_about)
+kb_mainwindow.row(b_usligi).row(b_about).row(b_korzina)
 
 b_masters = KeyboardButton("Наши мастера")
 b_interier = KeyboardButton("Интерьер")
@@ -73,3 +74,14 @@ kb_zakaz.row(b_cancel).row(b_usligi)
 b_who_at_work = KeyboardButton("Кто на смене?")
 kb_who_at_work = ReplyKeyboardMarkup(resize_keyboard=True).row(b_who_at_work).row(b_first)
 
+
+"""Buttons for zakazaka"""
+
+ib_zakaz_pizza = InlineKeyboardButton(text="Заказать", callback_data="z_pizza")
+ikb_z_pizza = InlineKeyboardMarkup(row_width=1).row(ib_main, ib_zakaz_pizza)
+
+cheese = [[InlineKeyboardButton(text="Сырная с пряной грушей (25см)", callback_data="zak клоунская25")],
+          [InlineKeyboardButton(text="35 см", callback_data="zak клоунская35")],
+          [InlineKeyboardButton(text="45 см", callback_data="zak клоунская45")]]
+
+ikb_types_of_pizza = InlineKeyboardMarkup(inline_keyboard=cheese, row_width=1)
