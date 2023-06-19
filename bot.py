@@ -1,3 +1,4 @@
+from aiogram.types import InputMediaPhoto
 from aiogram.utils import executor
 import pers
 import admins
@@ -62,16 +63,24 @@ async def about(message: types.Message):
                            text="Выберите категорию", reply_markup=keyboard_main.ikb_main)
 
 
-@dp.callback_query_handler(text="next_photo")
+
 @dp.message_handler(lambda message: "интерьер" in message.text.lower())
 async def interier(message: types.Message):
-    #await bot.send_message(message.from_user.id, "Фото залов нашего уютного заведения")
-    #lobal temp_user
     temp_user[message.from_user.id] = temp_user.get(message.from_user.id, 0)
     photo_number: int = temp_user[message.from_user.id]
-    print(photo_number, temp_user)
     await bot.send_photo(message.from_user.id, photos.rooms[photo_number], reply_markup=keyboard_main.ikb_about)
     temp_user[message.from_user.id] = (temp_user.get(message.from_user.id, 0) + 1) % 6
+
+
+@dp.callback_query_handler(text="next_photo")
+async def interier2(cb: types.CallbackQuery):
+    temp_user[cb.from_user.id] = temp_user.get(cb.from_user.id, 0)
+    photo_number: int = temp_user[cb.from_user.id]
+    photo_file = InputMediaPhoto(photos.rooms[photo_number])
+    await bot.edit_message_media(media=photo_file, message_id=cb.message.message_id,
+                                 chat_id=cb.message.chat.id, reply_markup=keyboard_main.ikb_about)
+    temp_user[cb.from_user.id] = (temp_user.get(cb.from_user.id, 0) + 1) % 6
+
 
 
 @dp.message_handler(lambda message: "наши мастера" in message.text.lower())
