@@ -136,3 +136,7 @@ async def add_zak(user: int, tov: str):
 
 async def get_tov_from_korzina(user: int):
     return cur.execute(f"SELECT ROWID, * FROM korzina WHERE id== {user}").fetchall()
+
+async def clear_korzinu(user: int):
+    cur.execute(f"DELETE FROM korzina WHERE id == {user}")
+    base.commit()

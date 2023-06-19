@@ -30,3 +30,9 @@ async def look_korzina(message: types.Message):
         gods_cost += i[3]
     await bot.send_message(message.from_user.id, f"Ваш заказ:\n{gods_list}Стоимость заказа: {gods_cost} рублей",
                            reply_markup=keyboard_main.ikb_clear_pay)
+
+
+@dp.callback_query_handler(lambda c: "clear all" in c.data)
+async def clear_korz(cb: types.CallbackQuery):
+    await sql_db.clear_korzinu(cb.from_user.id)
+    await bot.edit_message_text(message_id=cb.message.message_id, chat_id=cb.message.chat.id, text="Корзина очищена")
