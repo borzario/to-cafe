@@ -104,6 +104,25 @@ ikb_types_of_pizza = InlineKeyboardMarkup(row_width=1).row(ib_cheeze_25).row(ib_
     row(ib_pep_25).row(ib_pep_35, ib_pep_45).row(ib_mor_25).row(ib_mor_35, ib_mor_45).row(ib_meat_25).\
     row(ib_meat_35, ib_meat_45).row(ib_menu).row(ib_korz)
 
+
+ib_zakaz_burg = InlineKeyboardButton(text="Заказать", callback_data="z_burg")
+ikb_z_burg = InlineKeyboardMarkup(row_width=1).row(ib_main, ib_zakaz_burg)
+
+ib_chik = InlineKeyboardButton(text="Чикен бургер, картошка фри, соус", callback_data="zakp чик")
+ib_chik2 = InlineKeyboardButton(text="Дабл чикен бургер, картошка фри, соус", callback_data="zakp чик2")
+
+ib_bif = InlineKeyboardButton(text="Биф бургер, картофель по деревенски, соус", callback_data="zakp биф")
+ib_fish = InlineKeyboardButton(text="Fish бургер, картофельные чурос, соус", callback_data="zakp чур")
+ib_ket = InlineKeyboardButton(text="Кетчуп", callback_data="zakp кетч")
+
+ib_sir = InlineKeyboardButton(text="Сырный соус", callback_data="zakp сырный")
+ib_maz = InlineKeyboardButton(text="Майонез", callback_data="zakp мазик")
+ib_tar = InlineKeyboardButton(text="Тар-Тар", callback_data="zakp тар")
+
+ikb_types_of_burg = InlineKeyboardMarkup(row_width=1).row(ib_chik).row(ib_chik2).\
+    row(ib_bif).row(ib_fish).row(ib_ket, ib_tar).row(ib_maz, ib_sir).row(ib_menu).row(ib_korz)
+
+
 ib_clear_gods = InlineKeyboardButton(text="Очистить корзину", callback_data="clear all")
 ib_pay_gods = InlineKeyboardButton(text="Оплатить заказ", callback_data=f"pay")
 ikb_clear_pay = InlineKeyboardMarkup(row_width=1).row(ib_clear_gods, ib_pay_gods)

@@ -1,7 +1,8 @@
 from aiogram import types
-
+from aiogram.types import ContentType
 
 import keyboard_main
+import tok
 from create_bot import dp, bot
 from data_base import sql_db
 
@@ -36,3 +37,41 @@ async def look_korzina(message: types.Message):
 async def clear_korz(cb: types.CallbackQuery):
     await sql_db.clear_korzinu(cb.from_user.id)
     await bot.edit_message_text(message_id=cb.message.message_id, chat_id=cb.message.chat.id, text="Корзина очищена")
+
+
+@dp.callback_query_handler(lambda c: c.data == "pay")
+async def pay_for_gods(cb: types.CallbackQuery):
+    korz: list = await sql_db.get_tov_from_korzina(cb.from_user.id)
+    gods_cost = 0
+    for i in korz:
+        gods_cost += i[3]
+    PRICE = types.LabeledPrice(label='Платеж за выбранные товары', amount=gods_cost*100)
+    await bot.send_invoice(
+        cb.from_user.id,
+        title="Платеж по заказу в ТОкафе",
+        description="набор еды",
+        provider_token=tok.PTOKEN,
+        currency='rub',
+        photo_url="https://downloader.disk.yandex.ru/preview/5845f064cca6fabfa96a25724af14a90fc4f714088f313b319c36fc8"
+                  "212caca8/6492c5d0/McV6VIm9D7msjbC8Hvkeb31cjrxiZo7ZKy3V8T-r2ZGzlbinlf9qp9Dp0DtGpWmsRbUhgAjfGUFefBMN"
+                  "62q59A%3D%3D?uid=0&filename=IMG_9094.JPG&disposition=inline&hash=&limit=0&content_type=image%2Fjpe"
+                  "g&owner_uid=0&tknv=v2&size=2048x2048",
+        photo_height=471,
+        photo_width=600,
+        #photo_size=61100,
+        is_flexible=False,
+        prices=[PRICE],
+        start_parameter='to_cafe_example',
+        payload='some-invoice-payload-for-our-internal-use')
+
+
+@dp.pre_checkout_query_handler(lambda query: True)
+async def process_pre_checkout_query(pre_checkout_query: types.PreCheckoutQuery):
+    await bot.answer_pre_checkout_query(pre_checkout_query.id, ok=True)
+
+
+@dp.message_handler(content_types=ContentType.SUCCESSFUL_PAYMENT)
+async def process_successful_payment(message: types.Message):
+    print('successful_payment:')
+    await bot.send_message(message.from_user.id, "успешный платеж")
+
