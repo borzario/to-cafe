@@ -118,7 +118,6 @@ async def process_successful_payment(message: types.Message):
         gods_list += f"{i[0]} - {i[2]}, {i[3]} рублей\n"
         gods_cost += i[3]
     for i in pers.amdins:
-        await bot.send_message(i, text=f"Родная, новый заказ:\n{gods_list}Стоимость заказа: {gods_cost} рублей",
-                                reply_markup=keyboard_main.ikb_clear_pay)
+        await bot.send_message(i, text=f"Родная, новый заказ:\n{gods_list}Стоимость заказа: {gods_cost} рублей")
     await sql_db.clear_korzinu(message.from_user.id)
     await bot.send_message(message.from_user.id, "Платеж прошел успешно")
