@@ -3,6 +3,7 @@ from aiogram.types import ContentType
 
 import data_base.goods
 import keyboard_main
+import pers
 import tok
 from create_bot import dp, bot
 from data_base import sql_db
@@ -110,5 +111,14 @@ async def process_pre_checkout_query(pre_checkout_query: types.PreCheckoutQuery)
 
 @dp.message_handler(content_types=ContentType.SUCCESSFUL_PAYMENT)
 async def process_successful_payment(message: types.Message):
+    korz: list = await sql_db.get_tov_from_korzina(message.from_user.id)
+    gods_list = ''
+    gods_cost = 0
+    for i in korz:
+        gods_list += f"{i[0]} - {i[2]}, {i[3]} рублей\n"
+        gods_cost += i[3]
+    for i in pers.amdins:
+        await bot.send_message(i, text=f"Родная, новый заказ:\n{gods_list}Стоимость заказа: {gods_cost} рублей",
+                                reply_markup=keyboard_main.ikb_clear_pay)
     await sql_db.clear_korzinu(message.from_user.id)
     await bot.send_message(message.from_user.id, "Платеж прошел успешно")
