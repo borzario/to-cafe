@@ -9,6 +9,7 @@ import keyboard_main
 from data_base import sql_db
 from client import *
 from admins import *
+import zakazaka
 
 async def on_startup(_):
     print("Папа в здании")
@@ -105,46 +106,47 @@ async def hookah(message: types.Message):
     await bot.send_photo(message.from_user.id, photos.hookah, reply_markup=keyboard_main.ikb_main)
 
 
-@dp.message_handler(lambda message: "menu" in message.text.lower())
+@dp.callback_query_handler(lambda c: "menu" in c.data)
 @dp.message_handler(lambda message: "меню" in message.text.lower())
-async def hookah(message: types.Message):
+async def manu(message: types.Message):
     await bot.send_photo(message.from_user.id, photos.menu["menu"])
     await bot.send_message(message.from_user.id, "Выберите категорию", reply_markup=keyboard_main.kb_menu)
 
 
 @dp.message_handler(lambda message: "закуски" in message.text.lower())
-async def hookah(message: types.Message):
-    await bot.send_photo(message.from_user.id, photos.menu["zakus"], reply_markup=keyboard_main.ikb_main)
+async def zakus(message: types.Message):
+    await bot.send_photo(message.from_user.id, photos.menu["zakus"], reply_markup=keyboard_main.ikb_z_zakus)
+
 
 
 @dp.message_handler(lambda message: "салаты" in message.text.lower())
-async def hookah(message: types.Message):
-    await bot.send_photo(message.from_user.id, photos.menu["salat"], reply_markup=keyboard_main.ikb_main)
+async def salat(message: types.Message):
+    await bot.send_photo(message.from_user.id, photos.menu["salat"], reply_markup=keyboard_main.ikb_z_salat)
 
 
 @dp.message_handler(lambda message: "напитки" in message.text.lower())
-async def hookah(message: types.Message):
-    await bot.send_photo(message.from_user.id, photos.menu["drink"], reply_markup=keyboard_main.ikb_main)
+async def drink(message: types.Message):
+    await bot.send_photo(message.from_user.id, photos.menu["drink"], reply_markup=keyboard_main.ikb_z_drink)
 
 
 @dp.message_handler(lambda message: "завтраки" in message.text.lower())
 async def hookah(message: types.Message):
-    await bot.send_photo(message.from_user.id, photos.menu["brekfast"], reply_markup=keyboard_main.ikb_main)
+    await bot.send_photo(message.from_user.id, photos.menu["brekfast"], reply_markup=keyboard_main.ikb_z_brekf)
 
 
 @dp.message_handler(lambda message: "горячие блюда" in message.text.lower())
 async def hookah(message: types.Message):
-    await bot.send_photo(message.from_user.id, photos.menu["hot"], reply_markup=keyboard_main.ikb_main)
+    await bot.send_photo(message.from_user.id, photos.menu["hot"], reply_markup=keyboard_main.ikb_z_din)
 
 
 @dp.message_handler(lambda message: "бургер-сет" in message.text.lower())
 async def hookah(message: types.Message):
-    await bot.send_photo(message.from_user.id, photos.menu["burger"], reply_markup=keyboard_main.ikb_main)
+    await bot.send_photo(message.from_user.id, photos.menu["burger"], reply_markup=keyboard_main.ikb_z_burg)
 
 
 @dp.message_handler(lambda message: "пицца" in message.text.lower())
 async def hookah(message: types.Message):
-    await bot.send_photo(message.from_user.id, photos.menu["pizza"], reply_markup=keyboard_main.ikb_main)
+    await bot.send_photo(message.from_user.id, photos.menu["pizza"], reply_markup=keyboard_main.ikb_z_pizza)
 
 
 @dp.message_handler(lambda message: "отзывы" in message.text.lower())
@@ -167,15 +169,17 @@ async def any_shit(message : types.Message, a="nnn"):
 async def any_shit2(message : types.Message, a="nnn"):
     await bot.send_message(message.from_user.id, message.video.file_id)
 
+
+@dp.message_handler(text="корзина")
+async def goto_korz(message: types.Message):
+    await bot.send_message(message.from_user.id, "В данном разделе располагаются ваши заказы")
+
+
+
+
 registr_admin(dp)
 registr_client(dp)
 
-
-#@dp.message_handler()
-async def name(message: types.Message):
-    await bot.send_message(5097527515, message.text)
-    await sql_db.add_name(message)
-    await bot.send_message(message.from_user.id, "Your name was added to base")
 
 if __name__ == "__main__":
     executor.start_polling(dp, skip_updates = True, on_startup = on_startup)

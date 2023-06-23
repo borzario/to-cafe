@@ -5,6 +5,7 @@ from aiogram.dispatcher.filters.state import State, StatesGroup
 from aiogram import types, Dispatcher
 
 import admins
+import tok
 from create_bot import dp, bot
 from aiogram.dispatcher.filters import Text
 from data_base import sql_db
@@ -88,7 +89,6 @@ async def tell2(message : types.Message, state = FSMContext):
         except:
             pass
     await message.reply("Спасибо за Ваш отзыв")
-
 
 
 
