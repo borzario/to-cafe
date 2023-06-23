@@ -99,45 +99,45 @@ async def hookah(message: types.Message):
 
 @dp.callback_query_handler(lambda c: "menu" in c.data)
 @dp.message_handler(lambda message: "меню" in message.text.lower())
-async def hookah(message: types.Message):
+async def manu(message: types.Message):
     await bot.send_photo(message.from_user.id, photos.menu["menu"])
     await bot.send_message(message.from_user.id, "Выберите категорию", reply_markup=keyboard_main.kb_menu)
 
 
 @dp.message_handler(lambda message: "закуски" in message.text.lower())
-async def hookah(message: types.Message):
-    await bot.send_photo(message.from_user.id, photos.menu["zakus"], reply_markup=keyboard_main.ikb_main)
+async def zakus(message: types.Message):
+    await bot.send_photo(message.from_user.id, photos.menu["zakus"], reply_markup=keyboard_main.ikb_z_zakus)
+
 
 
 @dp.message_handler(lambda message: "салаты" in message.text.lower())
-async def hookah(message: types.Message):
-    await bot.send_photo(message.from_user.id, photos.menu["salat"], reply_markup=keyboard_main.ikb_main)
+async def salat(message: types.Message):
+    await bot.send_photo(message.from_user.id, photos.menu["salat"], reply_markup=keyboard_main.ikb_z_salat)
 
 
 @dp.message_handler(lambda message: "напитки" in message.text.lower())
-async def hookah(message: types.Message):
-    await bot.send_photo(message.from_user.id, photos.menu["drink"], reply_markup=keyboard_main.ikb_main)
+async def drink(message: types.Message):
+    await bot.send_photo(message.from_user.id, photos.menu["drink"], reply_markup=keyboard_main.ikb_z_drink)
 
 
 @dp.message_handler(lambda message: "завтраки" in message.text.lower())
 async def hookah(message: types.Message):
-    await bot.send_photo(message.from_user.id, photos.menu["brekfast"], reply_markup=keyboard_main.ikb_main)
+    await bot.send_photo(message.from_user.id, photos.menu["brekfast"], reply_markup=keyboard_main.ikb_z_brekf)
 
 
 @dp.message_handler(lambda message: "горячие блюда" in message.text.lower())
 async def hookah(message: types.Message):
-    await bot.send_photo(message.from_user.id, photos.menu["hot"], reply_markup=keyboard_main.ikb_main)
+    await bot.send_photo(message.from_user.id, photos.menu["hot"], reply_markup=keyboard_main.ikb_z_din)
 
 
 @dp.message_handler(lambda message: "бургер-сет" in message.text.lower())
 async def hookah(message: types.Message):
-    await bot.send_photo(message.from_user.id, photos.menu["burger"], reply_markup=keyboard_main.ikb_main)
+    await bot.send_photo(message.from_user.id, photos.menu["burger"], reply_markup=keyboard_main.ikb_z_burg)
 
 
 @dp.message_handler(lambda message: "пицца" in message.text.lower())
 async def hookah(message: types.Message):
-    await bot.send_message(message.from_user.id, "viberi pizzu", reply_markup=keyboard_main.ikb_z_pizza)
-    #await bot.send_photo(message.from_user.id, photos.menu["pizza"], reply_markup=keyboard_main.ikb_z_pizza)
+    await bot.send_photo(message.from_user.id, photos.menu["pizza"], reply_markup=keyboard_main.ikb_z_pizza)
 
 
 @dp.message_handler(lambda message: "отзывы" in message.text.lower())

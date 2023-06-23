@@ -1,5 +1,5 @@
 import sqlite3 as sq
-import goods
+from data_base import goods
 
 from aiogram import types
 
